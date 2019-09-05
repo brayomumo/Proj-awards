@@ -14,6 +14,6 @@ class test_projects(TestCase):
         proj = Project.objects.all()
         self.assertTrue(len(proj) > 0 )
 
-    def test_delete(self):
-        self.proj1.delete_project()
-        pro = Project.objects.all()
+    def test_delete(self, pk):
+        # self.proj1.delete_project()
+        self.assertTrue((self.proj1.delete_projects()) == (self.proj1.delete()))
