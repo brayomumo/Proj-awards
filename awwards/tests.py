@@ -13,3 +13,7 @@ class test_projects(TestCase):
         self.proj1.save_project()
         proj = Project.objects.all()
         self.assertTrue(len(proj) > 0 )
+
+    def test_delete(self):
+        self.proj1.delete_project()
+        pro = Project.objects.all()

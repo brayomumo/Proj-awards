@@ -9,3 +9,6 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save_project(self):
+        self.save()
