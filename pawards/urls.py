@@ -16,13 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls import url,include
 from awwards import urls
-from awwards.views import user_register as register
 from django.contrib.auth import views as auth_views
+from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
     url('admin/', admin.site.urls),
     # url(r'^login/$', auth_views.auth_login, name='login'),
-    url(r'^register/$', register, name='user_register'),
+    url(r'^api-token-auth',obtain_auth_token),
     url(r'^login/$', auth_views.LoginView.as_view(), name='login'),
     url(r'^logout/$', auth_views.auth_logout, name='logout'),
     url(r'^accounts/', include('registration.backends.simple.urls')),
