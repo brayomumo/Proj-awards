@@ -1,35 +1,69 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# Create your models here.
 
+# Create your models here.
 class Project(models.Model):
-    title = models.CharField(max_length = 60)
-    description = models.TextField()
-    image = models.ImageField(upload_to='images/', default="")
-    url = models.CharField(max_length = 60,default="")
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    # posted = models.DateTimeField(auto_now_add=True)
+    title = models.CharField(max_length=100)
+    details = models.TextField()
+    link = models.CharField(max_length=100)
+    user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+    image = models.ImageField(upload_to='project_pics',blank=True)
+    user_project_id = models.IntegerField(default=0)
+    design = models.IntegerField(choices=list(zip(range(0, 11), range(0, 11))), default=0)
+    usability = models.IntegerField(choices=list(zip(range(0, 11), range(0, 11))), default=0)
+    content = models.IntegerField(choices=list(zip(range(0, 11), range(0, 11))), default=0)
+    vote_submissions = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title
 
+    class Meta:
+        ordering = ['-id']
+
+    def save_project(self):
+        self.save()
+
+    def delete_project(self):
+        self.delete()
+
+    @classmethod
+    def fetch_all_images(cls):
+        all_images = Project.objects.all()
+        return all_images
+
+    @classmethod
+    def search_project_by_title(cls,search_term):
+        project = cls.objects.filter(title__icontains=search_term)
+        return project
+
+    @classmethod
+    def get_single_project(cls, project):
+        project = cls.objects.get(id=project)
+        return project
+
+    class Meta:
+        ordering = ['-id']
+
+    
+    
 class Profile(models.Model):
-    profile_pic = models.ImageField(upload_to='images/', default='/images/default.jpg')
-    bio = models.TextField(blank=True)
-    contacts = models.CharField(max_length = 30,blank=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile_picture = models.ImageField(upload_to='prof_pics/',blank=True)
+    prof_user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+    bio = models.TextField()
+    contact_info = models.CharField(max_length=200,blank=True)
+    profile_Id = models.IntegerField(default=0)
+    all_projects = models.ForeignKey('Project',on_delete=models.CASCADE,null=True)
 
     def __str__(self):
-        return self.user.username
+        return self.bio
 
-class Review(models.Model):
-    design = models.IntegerField(default=0)
-    usability = models.IntegerField(default=0)
-    content = models.IntegerField(default=0)
-    average = models.IntegerField(default=0)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    def save_profile(self):
+        self.save()
 
-    def __str__(self):
-        return self.project.title
+    def delete_profile(self):
+        self.delete()
+
+    def update_bio(self,bio):
+        self.bio = bio
+        self.save()
