@@ -6,10 +6,10 @@ from django.contrib.auth.models import User
 class Project(models.Model):
     title = models.CharField(max_length = 60)
     description = models.TextField()
-    image = models.ImageField(upload_to='images/')
-    url = models.CharField(max_length = 60)
+    image = models.ImageField(upload_to='images/', default="")
+    url = models.CharField(max_length = 60,default="")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    pub_date = models.DateTimeField(auto_now_add=True)
+    # posted = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
