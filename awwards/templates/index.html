@@ -2,7 +2,7 @@
 
 {% block content %}
     <div style="background-color:beige; height:30vh;">
-       
+       <img src="http://pluspng.com/img-png/gold-award-png-accolade-merit-logo-gold-award-2017.png" style="width: 10%; padding: 10px; position: center" class="text-center">     
         <h1 class="text-center heading"><i class="fas fa-award"  style="margin-top:50px;"></i  style="margin-top:50px;"> AWARDS</h1>
          <h4 class="text-center heading">Lets go...</h4>
     </div>
@@ -16,7 +16,7 @@
 
 <div class="container-fluid">
     
-    <div class="row" style="background-color: lightgrey; margin-top:30px;">
+    <div class="row" style="margin-top:30px;">
         {% for image in all_images%}
 
         <div class="col-md-4 main-page d-flex" style=" margin-top: 40px; margin-bottom:50px;">
@@ -36,7 +36,7 @@
                     <p class="card-text">{{image.details}}</p>
                     <p><a href="{{image.link}}">Live Project Link</a></p>                    
                     
-                    <a href="{% url 'project_review' image.pk %}" class="btn btn-primary btn-md">Review Project</a>
+                    <a href="{% url 'project_review' image.pk %}" class="btn btn-primary btn-md" target="_blank">Review Project</a>
 
                 </div>
             </div>
@@ -56,15 +56,11 @@
 
 
         {% empty %}
-<style>
-    body {
-        background-color: lightgrey;
-    }
-</style>
+    
 
         <div class="container">
         <div class="row">
-            <h1 class="text-center" style="font-style:italics;"> No Images Yet</h1>
+            <h1 class="text-center" style="font-style:italics;"> No Projects Yet</h1>
         </div>
         {% endfor %}
     </div>
