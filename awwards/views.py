@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from .models import Project,Profile
-from .forms import ProjectForm,ProfileForm,VoteForm
+from .forms import ProjectForm,ProfileForm,VoteForm 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.response import Response
@@ -12,7 +12,7 @@ from .serializer import ProfileSerializer,ProjectSerializer
 
 def home(request):
     all_projects = Project.fetch_all_images()
-    return render(request,"Awards/index.html",{"all_images":all_projects})
+    return render(request,"index.html",{"all_images":all_projects})
 
 @login_required(login_url='/accounts/login/')
 def new_project(request):
@@ -26,7 +26,7 @@ def new_project(request):
         return redirect('home')
     else:
         form = ProjectForm()
-    return render(request,"Awards/new_project.html",{"form":form})
+    return render(request,"project.html",{"form":form})
 
 @login_required(login_url='/accounts/login/')
 def new_profile(request):
@@ -76,11 +76,13 @@ def search_project(request):
         searched_projects = Project.search_project_by_title(search_term)
         message = f'{search_term}'
 
-        return render(request, 'search/search.html', {"message":message, "projects":searched_projects})
+        return render(request, 'search.html', {"message":message, "projects":searched_projects})
 
     else:
         message = "No search results yet!"
-        return render (request, 'search/search.html', {"message": message})
+        return render (request, 'search.html', {"message": message})
+
+        
 @login_required(login_url='/accounts/login/')
 def project_review(request,project_id):
     try:
@@ -110,7 +112,7 @@ def project_review(request,project_id):
 
     except Exception as  e:
         raise Http404()
-    return render(request,'Awards/project_review.html',{"vote_form":vote_form,"single_project":single_project,"average_score":average_score})
+    return render(request,'review.html',{"vote_form":vote_form,"single_project":single_project,"average_score":average_score})
 
 class ProfileList(APIView):
     def get(self,request,format=None):
