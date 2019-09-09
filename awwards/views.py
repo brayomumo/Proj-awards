@@ -7,12 +7,28 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializer import ProfileSerializer,ProjectSerializer
+from datetime import date
 
 # Create your views here.
 
 def home(request):
     all_projects = Project.fetch_all_images()
-    return render(request,"index.html",{"all_images":all_projects})
+    projects = Project.objects.all()
+    dayProj = 0
+    today = date.today()
+    maxVote = 0
+    for project in projects:
+        design = int(project.design)
+        usability = int(project.usability)
+        content = int(project.usability)
+        avrg = (design + usability + content)/3
+        if avrg > maxVote:
+            maxVote= avrg
+            dayProj = project    
+    design = int(dayProj.design)*10
+    usability = int(dayProj.usability)*10
+    content = int(dayProj.content)*10
+    return render(request,"index.html",{"all_images":all_projects, "mainproj":dayProj, "day":today, "design":design,"usability":usability, "content":content })
 
 @login_required(login_url='/accounts/login/')
 def new_project(request):
@@ -55,6 +71,8 @@ def profile_edit(request):
     else:
         form = ProfileForm()
     return render(request,'profile/edit_profile.html',{'form':form})
+
+
 
 @login_required(login_url='/accounts/login/')
 def profile(request):
