@@ -1,21 +1,158 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-    <div style="background-color:beige; height:30vh;">
-       <!-- <img src="http://pluspng.com/img-png/gold-award-png-accolade-merit-logo-gold-award-2017.png" style="width: 10%; padding: 10px; position: center" class="text-center">      -->
-        <h1 class="text-center heading"><i class="fas fa-award"  style="margin-top:50px;"></i  style="margin-top:50px;"> AWWARDS</h1>
-         <h4 class="text-center heading">May the best project win</h4>
+<style>
+    #wrapper {
+        position: relative;
+        /* top: 80px; */
+        /* width: 30%; */
+        height: 20px;
+        padding: 10px;
+    }
+
+    .center {
+        left: 50%;
+        -webkit-transform: translate(-50%);
+        -ms-transform: translate(-50%);
+        transform: translate(-50%);
+    }
+
+    /*===== The CSS =====*/
+    .main {
+        background-image: url('https://coolbackgrounds.io/images/backgrounds/index/compute-ea4c57a4.png');
+        background-size: 100%;
+        background-repeat: no-repeat;
+        color: antiquewhite;
+    }
+
+    .progress {
+        width: 200px;
+        height: 280px;
+    }
+
+    .progress .track,
+    .progress .fill {
+        fill: rgba(0, 0, 0, 0);
+        stroke-width: 3;
+        transform: rotate(90deg)translate(0px, -80px);
+    }
+
+    .progress .track {
+        stroke: rgb(56, 71, 83);
+    }
+
+    .progress .fill {
+        stroke: rgb(255, 255, 255);
+        stroke-dasharray: 219.99078369140625;
+        stroke-dashoffset: -219.99078369140625;
+        transition: stroke-dashoffset 1s;
+    }
+
+    .progress.blue .fill {
+        stroke: rgb(104, 214, 198);
+    }
+
+    .progress.green .fill {
+        stroke: rgb(186, 223, 172);
+    }
+
+    .progress .value,
+    .progress .text {
+        font-family: 'Open Sans';
+        fill: rgb(255, 255, 255);
+        text-anchor: middle;
+    }
+
+    .progress .text {
+        font-size: 12px;
+    }
+
+    .noselect {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        cursor: default;
+    }
+</style>
+<script>
+    var forEach = function (array, callback, scope) {
+        for (var i = 0; i < array.length; i++) {
+            callback.call(scope, i, array[i]);
+        }
+    };
+    window.onload = function () {
+        var max = -219.99078369140625;
+        forEach(document.querySelectorAll('.progress'), function (index, value) {
+            percent = value.getAttribute('data-progress');
+            value.querySelector('.fill').setAttribute('style', 'stroke-dashoffset: ' + ((100 - percent) /
+                100) * max);
+            value.querySelector('.value').innerHTML = percent + '%';
+        });
+    }
+</script>
+<div class="container-fluid">
+    <div class="main">
+        <div style="background-color: transparent;">
+            <h1 class="text-center heading"><i class="fas fa-award" style="margin-top:50px;"></i
+                    style="margin-top:50px;">
+                AWWARDS</h1>
+            <h4 class="text-center heading">May the best project win</h4>
+
+        </div>
+        <div class="row">
+
+            <div class="col-md-2">
+                <h3> Site of the day {{day}} </h3>
+            </div>
+            <br>
+            <div class="col-md-8 center " style="color: white">
+                <div id="wrapper">
+                    <h2 class=""> {{mainproj.title}} </h2>
+                    <svg class="progress blue noselect col-md-4" data-progress="{{ design }}" x="0px" y="0px"
+                        viewBox="0 0 80 80">
+                        <path class="track" d="M5,40a35,35 0 1,0 70,0a35,35 0 1,0 -70,0" />
+                        <path class="fill" d="M5,40a35,35 0 1,0 70,0a35,35 0 1,0 -70,0" />
+                        <text class="value" x="50%" y="55%">0%</text>
+                        <text class="text" x="50%" y="115%">Design</text>
+                    </svg>
+                    <svg class="progress blue noselect col-md-4" data-progress="{{content}}" x="0px" y="0px"
+                        viewBox="0 0 80 80">
+                        <path class="track" d="M5,40a35,35 0 1,0 70,0a35,35 0 1,0 -70,0" />
+                        <path class="fill" d="M5,40a35,35 0 1,0 70,0a35,35 0 1,0 -70,0" />
+                        <text class="value" x="50%" y="55%">0%</text>
+                        <text class="text" x="50%" y="115%">content</text>
+                    </svg>
+                    <svg class="progress blue noselect col-md-4" data-progress="{{ usability }}" x="0px" y="0px"
+                        viewBox="0 0 80 80">
+                        <path class="track" d="M5,40a35,35 0 1,0 70,0a35,35 0 1,0 -70,0" />
+                        <path class="fill" d="M5,40a35,35 0 1,0 70,0a35,35 0 1,0 -70,0" />
+                        <text class="value" x="50%" y="55%">0%</text>
+                        <text class="text" x="50%" y="115%">Usability</text>
+                    </svg>
+
+                </div>
+            </div>
+            <div class="col-md-2">
+                <br>
+            </div>
+
+        </div>
     </div>
 
 
- {% comment %} <style>
-    body {
-        background-color: lightgrey;
-    }
-</style> {% endcomment %}
 
-<div class="container-fluid">
-    
+
+
+    <div class="row">
+        <div class="col-md-8">
+
+            <!-- <img class="card-img-top" src="{{mainproj.image.url}}" alt="{{mainproj.title}}"> -->
+        </div>
+    </div>
+
     <div class="row" style="margin-top:30px;">
         {% for image in all_images%}
 
@@ -34,9 +171,10 @@
                     <h4 class="card-title">{{image.title}}</h4>
                     <!--Text-->
                     <p class="card-text">{{image.details}}</p>
-                    <p><a href="{{image.link}}">Live Project Link</a></p>                    
-                    
-                    <a href="{% url 'project_review' image.pk %}" class="btn btn-primary btn-md" target="_blank">Review Project</a>
+                    <p><a href="{{image.link}}">Live Project Link</a></p>
+
+                    <a href="{% url 'project_review' image.pk %}" class="btn btn-primary btn-md" target="_blank">Review
+                        Project</a>
 
                 </div>
             </div>
@@ -44,11 +182,11 @@
         <!--Modal: modalYT-->
         <div class="modal fade" id="{{image.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
             aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">                               
-                        <div class="embed-responsive embed-responsive-16by9">
-                            <img class="embed-responsive-item" src="{{image.image.url}}" alt="Image Loading"
-                                style="margin:10px;" allowfullscreen>
-                        </div>                              
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <img class="embed-responsive-item" src="{{image.image.url}}" alt="Image Loading"
+                        style="margin:10px;" allowfullscreen>
+                </div>
 
             </div>
         </div>
@@ -56,18 +194,18 @@
 
 
         {% empty %}
-    
+
 
         <div class="container">
-        <div class="row">
-            <h1 class="text-center" style="font-style:italics;"> No Projects Yet</h1>
+            <div class="row">
+                <h1 class="text-center" style="font-style:italics;"> No Projects Yet</h1>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
+        <!-- Card deck -->
+        <div class="row">
+        </div>
+
     </div>
-    <!-- Card deck -->
-    <div class="row">
-    </div>
-    
-</div>
 </div>
 {% endblock %}
